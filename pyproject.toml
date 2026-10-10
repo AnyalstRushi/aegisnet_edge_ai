@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aegisnet"
+version = "1.0.0"
+description = "Self-explaining Edge-AI neural network (pure NumPy) for cyber-threat and server-anomaly detection"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Rushi" }]
+keywords = ["neural-network", "anomaly-detection", "cybersecurity", "edge-ai", "explainable-ai", "autoencoder", "numpy"]
+dependencies = ["numpy>=1.24", "pandas>=2.0", "matplotlib>=3.7", "scikit-learn>=1.3", "flask>=3.0"]
+
+[project.urls]
+Homepage = "https://github.com/AnyalstRushi/aegisnet-edge-ai"
+
+[tool.setuptools]
+packages = ["aegisnet"]

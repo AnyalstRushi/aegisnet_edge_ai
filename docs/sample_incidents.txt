@@ -1,0 +1,24 @@
+[CRITICAL] Ransomware-like mass file encryption | minutes 87840-87859 (20 min) | peak risk 100/100
+WHY: File writes/min = 1369 (model expected ~90); Disk I/O MB/s = 41 (model expected ~19)
+AUTO-EXECUTED : Take immediate storage snapshot | Page incident-response team
+NEEDS HUMAN OK : Isolate host from network NOW | Suspend user sessions on the host
+
+[CRITICAL] Possible data exfiltration / DNS tunnelling | minutes 89620-89640 (21 min) | peak risk 100/100
+WHY: DNS queries/min = 539 (model expected ~104); Disk I/O MB/s = 43 (model expected ~16); Outbound Mbps = 226 (model expected ~110)
+AUTO-EXECUTED : Snapshot network flows for forensics | Alert security team
+NEEDS HUMAN OK : Cut outbound traffic for this host | Disable the affected service account
+
+[CRITICAL] Volumetric DDoS attack | minutes 92666-92694 (29 min) | peak risk 100/100
+WHY: HTTP 5xx % = 13 (model expected ~2); Avg packet bytes = 463 (model expected ~595)
+AUTO-EXECUTED : Enable CDN / WAF rate-limiting profile | Page the on-call network engineer
+NEEDS HUMAN OK : Null-route top offending prefixes | Scale out replicas behind the load balancer
+
+[HIGH] Credential brute-force attack | minutes 91754-91767 (14 min) | peak risk 100/100
+WHY: Failed logins/min = 114 (model expected ~11)
+AUTO-EXECUTED : Turn on account lock-out + login rate-limit | Open ticket and notify on-call engineer
+NEEDS HUMAN OK : Block offending source IPs at the firewall | Force password reset for targeted accounts
+
+[MEDIUM] Unknown anomaly (possible zero-day) | minutes 92549-92571 (23 min) | peak risk 100/100
+WHY: Unique ports touched = 1072 (model expected ~43); Avg packet bytes = 261 (model expected ~438)
+AUTO-EXECUTED : Increase telemetry resolution for this host | Send to analyst queue with explanation
+NEEDS HUMAN OK : Quarantine host for investigation

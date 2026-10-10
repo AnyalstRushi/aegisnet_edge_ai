@@ -1,0 +1,192 @@
+{
+  "headline": {
+    "ROC-AUC (fused)": "0.995",
+    "Attack recall": "98.5%",
+    "False-alarm rate": "0.98%",
+    "Attacks found": "37/37",
+    "Mean time-to-detect": "0.2 min",
+    "Model size": "34 KB",
+    "Latency": "0.004 ms/min",
+    "Parameters": "3,867"
+  },
+  "auc": {
+    "AegisNet fused risk": 0.9950494822920186,
+    "Autoencoder only": 0.9838465530041964,
+    "Classifier only": 0.9999021796690182,
+    "Isolation Forest (baseline)": 0.8902154655114146
+  },
+  "raw_alert": {
+    "precision": 0.7874564459930313,
+    "recall": 0.9897810218978103,
+    "fpr": 0.013343055049216186,
+    "f1": 0.8771021992238034
+  },
+  "smoothed_alert": {
+    "precision": 0.8333333333333334,
+    "recall": 0.9854014598540146,
+    "fpr": 0.00984323733138899,
+    "f1": 0.903010033444816
+  },
+  "per_class": {
+    "brute_force": {
+      "minutes": 63,
+      "alert_recall": 1.0,
+      "typed_correctly": 0.9841269841269841
+    },
+    "ddos": {
+      "minutes": 169,
+      "alert_recall": 1.0,
+      "typed_correctly": 0.9171597633136095
+    },
+    "port_scan": {
+      "minutes": 59,
+      "alert_recall": 0.9830508474576272,
+      "typed_correctly": 0.7288135593220338
+    },
+    "exfiltration": {
+      "minutes": 100,
+      "alert_recall": 1.0,
+      "typed_correctly": 0.99
+    },
+    "cryptominer": {
+      "minutes": 181,
+      "alert_recall": 0.9502762430939227,
+      "typed_correctly": 0.9226519337016574
+    },
+    "ransomware": {
+      "minutes": 113,
+      "alert_recall": 1.0,
+      "typed_correctly": 0.9380530973451328
+    }
+  },
+  "incidents": {
+    "true_attacks": 37,
+    "detected": 37,
+    "mean_ttd_min": 0.1891891891891892,
+    "max_ttd_min": 1,
+    "predicted_incidents": 40,
+    "false_incidents": 3
+  },
+  "zero_day": {
+    "Classifier only": 0.0,
+    "Autoencoder only": 1.0,
+    "AegisNet fused": 1.0,
+    "AegisNet flagged as NEW pattern": 1.0,
+    "Mislabelled as a known attack": 0.0
+  },
+  "drift": {
+    "stable": "STABLE",
+    "stable_worst_psi": 0.006852045376365683,
+    "drifted": "DRIFT - retrain model",
+    "drifted_worst_psi": 2.1480571903972896,
+    "drifted_worst_feature": "net_in_mbps"
+  },
+  "perf": {
+    "ms_per_window": 0.00371170513888883,
+    "model_kb": 34.072265625,
+    "params": 3867,
+    "ae_params": 1220,
+    "clf_params": 2647
+  },
+  "data": {
+    "train_normal_min": 28800,
+    "train_labeled_min": 28800,
+    "test_min": 14400,
+    "test_attack_min": 685,
+    "test_episodes": 37
+  },
+  "confusion": {
+    "rows": [
+      "normal",
+      "brute_force",
+      "ddos",
+      "port_scan",
+      "exfiltration",
+      "cryptominer",
+      "ransomware"
+    ],
+    "cols": [
+      "normal",
+      "brute_force",
+      "ddos",
+      "port_scan",
+      "exfiltration",
+      "cryptominer",
+      "ransomware",
+      "unknown_anomaly"
+    ],
+    "matrix": [
+      [
+        13580,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        135
+      ],
+      [
+        0,
+        62,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        155,
+        0,
+        0,
+        0,
+        0,
+        14
+      ],
+      [
+        1,
+        0,
+        0,
+        43,
+        0,
+        0,
+        0,
+        15
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        1
+      ],
+      [
+        9,
+        0,
+        0,
+        0,
+        0,
+        167,
+        0,
+        5
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        106,
+        7
+      ]
+    ]
+  },
+  "quick": false
+}

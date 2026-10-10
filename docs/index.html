@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AegisNet Lab: train a neural network in your browser, then attack it</title>
+<meta name="description" content="Train a real autoencoder in your browser in 3 seconds, then launch cyber-attacks at it and watch it explain itself.">
+<style>
+:root{--bg:#0A0F1F;--panel:#121B33;--line:#22305A;--fg:#E8EEFF;--mute:#7F8DB3;--aq:#00F0C8;--red:#FF3D71;--amb:#FFB020;--vio:#8B7BFF;--ok:#3DDC97}
+[hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 500px at 70% -10%,#16264d 0,var(--bg) 60%);color:var(--fg);font:16px/1.5 "Segoe UI",system-ui,Arial,sans-serif}
+.wrap{max-width:1150px;margin:auto;padding:24px 18px 48px}
+header{padding:28px 0 8px}.tag{color:var(--aq);font-weight:700;letter-spacing:.14em;font-size:12px}
+h1{margin:6px 0;font-size:clamp(34px,6vw,60px);letter-spacing:.04em;background:linear-gradient(90deg,var(--aq),var(--vio));-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 span{font-weight:300}header p{max-width:760px;color:var(--fg);font-size:18px;margin:6px 0}
+a{color:var(--aq)}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin:16px 0}
+button{background:var(--aq);color:#06231f;border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer;font-size:15px}
+button:disabled{opacity:.55;cursor:default}#attackBtns button{background:#2a1631;color:#ffd0dc;border:1px solid var(--red);margin:0 8px 8px 0;text-transform:capitalize}
+#attackBtns button:hover{background:var(--red);color:#fff}#attackBtns .soft{background:#2b2412;color:#ffe3a6;border-color:var(--amb)}#attackBtns .soft:hover{background:var(--amb);color:#201600}
+.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.bar{height:8px;background:#0c1328;border-radius:6px;margin:12px 0 6px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--aq),var(--vio));transition:width .15s}
+#trainMsg{color:var(--mute);font-size:14px;min-height:20px}.kpis{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.k{background:#0c1328;border:1px solid var(--line);border-radius:12px;padding:10px 16px;min-width:150px}.k b{display:block;font-size:26px;color:var(--aq)}.k span{color:var(--mute);font-size:13px}
+#lab{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}@media(max-width:860px){#lab{grid-template-columns:1fr}}
+canvas{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block}
+.ctl{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:10px 0;color:var(--mute);font-size:14px}.ctl label{display:flex;gap:6px;align-items:center}
+#metrics{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+#metrics div{background:#0c1328;border:1px solid var(--line);border-radius:10px;padding:6px 10px;display:flex;justify-content:space-between;font-size:13px}
+#metrics span{color:var(--mute)}#metrics .hot{border-color:var(--red);background:#2a1021}#metrics .hot b{color:var(--red)}
+#status{border:2px solid var(--ok);border-radius:14px;padding:12px 16px;background:#0c1328}#status small{color:var(--mute)}#status h2{margin:2px 0;font-size:30px;letter-spacing:.04em}.risk b{font-size:22px}
+.note{color:var(--mute);font-size:14px}h3{margin:16px 0 4px;font-size:17px}h4{margin:12px 0 4px;color:var(--mute);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.why{display:grid;grid-template-columns:130px 1fr;gap:2px 10px;align-items:center;font-size:14px;margin:4px 0}.why i{display:block;height:8px;border-radius:5px;background:var(--aq)}.why em{grid-column:2;color:var(--mute);font-style:normal;font-size:12px}
+.ok{color:var(--ok);font-size:14px}.ask{color:var(--amb);font-size:14px}#approve{margin-top:8px;background:var(--amb);color:#201600}
+#audit{white-space:pre-wrap;font:12px/1.5 Consolas,monospace;color:var(--mute);background:#0c1328;border-radius:10px;padding:10px;margin-top:10px;min-height:40px}
+footer{color:var(--mute);font-size:13px;margin-top:26px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="tag">AI + CYBERSECURITY &nbsp;|&nbsp; EDGE AI &nbsp;|&nbsp; EXPLAINABLE</div>
+  <h1>AEGISNET <span>LAB</span></h1>
+  <p>Train a real neural network <b>inside this page</b> in about 3 seconds. Then attack the server it protects and watch it catch the attack, explain why, and ask a human before anything risky.</p>
+  <p class="note">By Rushi &nbsp;|&nbsp; <a href="https://github.com/AnyalstRushi/aegisnet-edge-ai">Source code and full Python project on GitHub</a></p>
+</header>
+
+<section class="card">
+  <button id="btnTrain">1. Train the neural network in my browser</button>
+  <div class="bar"><i id="bar"></i></div>
+  <div id="trainMsg">An autoencoder (26-18-6-18-26, 1,220 weights) will learn what a normal server looks like. Nothing is uploaded; it all runs on your device.</div>
+  <div class="kpis" id="selfcheck"></div>
+</section>
+
+<section id="lab" hidden>
+  <div>
+    <div class="card">
+      <canvas id="cv" width="900" height="300"></canvas>
+      <div class="ctl">
+        <button class="ghost" id="pause">Pause</button>
+        <label>speed <input id="speed" type="range" min="20" max="240" value="150"></label>
+        <label><input id="forget" type="checkbox"> zero-day mode: forget the ransomware signature</label>
+      </div>
+      <h4>2. Launch an attack (25 simulated minutes)</h4>
+      <div id="attackBtns"></div>
+      <h4>Live server metrics</h4>
+      <div id="metrics"></div>
+    </div>
+  </div>
+  <aside>
+    <div class="card" style="margin-top:0">
+      <div id="status"></div>
+      <div id="plan"><p class="note">Launch an attack to see the explanation and the Guardian plan.</p></div>
+      <button id="approve" hidden>Approve the risky actions</button>
+      <div id="audit"></div>
+    </div>
+  </aside>
+</section>
+
+<footer>
+  <p><b>Honest notes.</b> The telemetry is simulated. This page runs Brain 1 (the autoencoder) plus nearest-signature naming; the Python project adds a supervised classifier and reaches higher recall. Guardian actions are simulated. Tip: tick "zero-day mode", launch ransomware, and watch the alert appear as an <i>unknown anomaly</i> instead of a wrong name.</p>
+</footer>
+</div>
+<script src="lab.js"></script>
+</body>
+</html>
